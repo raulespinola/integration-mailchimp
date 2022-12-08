@@ -23,7 +23,7 @@ the main goal of this proyect are:
 
 - **Background:** This proyect integrate two services a mock api service and the mailchimp service.
 - **Base Libraries:**
- - The proyect will use Java 17, Maven, Spring and Webclient
+ - The proyect will use Java 11, Maven, Spring and Webclient
  - **Communication:**
     - **Clients** (MockApi and MailChimp): 
       - Both will be creating using WebClient Library, with a Service Provider as Interface and DTO classes for exchange data with the service
