@@ -10,9 +10,9 @@ import com.trio.challenge.model.SyncContactModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.random.RandomGenerator;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class ContactServiceImpl implements ContactService {
@@ -41,14 +41,14 @@ public class ContactServiceImpl implements ContactService {
 
         contactsMockDto.stream()
                     .filter(contact -> actualMembersList.stream()
-                            .map(member -> member.getEmail_address()).toList()
+                            .map(member -> member.getEmail_address()).collect(Collectors.toList())
                             .contains(contact.getEmail()));
 
         List<MemberMailChimpDto> membersUpdate = contactsMockDto
                 .stream()
                 .map(contact -> mailChimpProvider
                         .syncMembersFromList(listId,trioContactToMailChimpContact(contact)))
-                .toList();
+                .collect(Collectors.toList());
 
         return SyncContactModel.builder()
                 .syncedContacts(membersUpdate.size())
@@ -56,21 +56,23 @@ public class ContactServiceImpl implements ContactService {
                                         .email(member.getEmail_address())
                                         .firstName(member.getMergeFields().getFname())
                                         .lastName(member.getMergeFields().getLname()).build())
-                                .toList()
+                                .collect(Collectors.toList())
                         ).build();
     }
 
     private List<ContactsMockDto> modifyEmailForServiceRestriction(List<ContactsMockDto> contactsMockDto) {
-    return contactsMockDto.stream()
+        Random random= new Random();
+        int value= random.nextInt(3);
+        return contactsMockDto.stream()
             .map(contact->contact.withEmail(contact.getEmail()
-                    .concat(RandomGenerator.getDefault().toString().substring(2,4)))).toList();
+                    .concat(contact.getFirstName().substring(value)))).collect(Collectors.toList());
     }
 
     public int cleanMailChimpList(String listId){
          MembersList memberList= mailChimpProvider.getMembersFromList(listId);
          return memberList.getMembers().stream()
                  .peek(contact-> mailChimpProvider.deleteMembersFromList(listId, contact.getContact_id()))
-                 .toList().size();
+                 .collect(Collectors.toList()).size();
     }
 
     public MembersList getMailChimpList(String listId){

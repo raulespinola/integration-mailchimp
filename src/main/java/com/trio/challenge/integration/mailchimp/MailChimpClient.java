@@ -68,7 +68,7 @@ public class MailChimpClient implements MailChimpProvider{
             return webClient
                     .post()
                     .uri(builder -> builder
-                            .path("/lists/%s/members".formatted(listId)).build())
+                            .path("/lists/".concat(listId).concat("/members")).build())
                     .body(BodyInserters.fromValue(requestMemberMailChimpDto))
                     .accept(MediaType.APPLICATION_JSON)
                     .retrieve()
@@ -96,7 +96,7 @@ public class MailChimpClient implements MailChimpProvider{
             webClient
                 .delete()
                 .uri(builder -> builder
-                        .path("/lists/%s/members/%s".formatted(listId,memberId)).build())
+                        .path("/lists/".concat(listId).concat("/members/".concat(memberId))).build())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(String.class)
@@ -148,7 +148,7 @@ public class MailChimpClient implements MailChimpProvider{
             return webClient
                     .get()
                     .uri(builder -> builder
-                            .path("/lists/%s/members?count=100".formatted(listId)).build())
+                            .path("/lists/".concat(listId).concat("/members?count=100")).build())
                     .accept(MediaType.APPLICATION_JSON)
                     .retrieve()
                     .bodyToMono(MembersList.class)
