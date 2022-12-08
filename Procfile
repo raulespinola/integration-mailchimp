@@ -1,1 +1,1 @@
-web: java -jar target/dependency/webapp-runner.jar --port 8080 --expand-war target/*.war
+web: java $JAVA_OPTS -jar target/*.jar
