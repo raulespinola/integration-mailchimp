@@ -19,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -52,7 +53,7 @@ public class ErrorHandler {
                                 ErrorDetailCode.INVALID_FIELD,
                                 validationError.getDefaultMessage()
                         )
-                ).toList();
+                ).collect(Collectors.toList());
         return buildBadRequestResponse(errorDetails);
     }
 
@@ -64,7 +65,7 @@ public class ErrorHandler {
                                 ErrorDetailCode.INVALID_FIELD,
                                 validationError.getDefaultMessage()
                         )
-                ).toList();
+                ).collect(Collectors.toList());
         return buildBadRequestResponse(errorDetails);
     }
 

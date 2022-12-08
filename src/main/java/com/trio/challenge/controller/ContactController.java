@@ -5,6 +5,8 @@ import com.trio.challenge.controller.dto.CleanListDto;
 import com.trio.challenge.integration.mailchimp.dto.*;
 import com.trio.challenge.mapper.IContactMapper;
 import com.trio.challenge.service.ContactServiceImpl;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -26,7 +28,11 @@ public class ContactController {
 
     @GetMapping(value = "/sync", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SyncContactDto> syncContactsToList(@RequestParam(required = false) String listId,
-                                                             @RequestParam(required = false) boolean addRandomEmail) {
+                                                              @RequestParam(required = false)
+                                                              @ApiParam(name =  "addRandomEmail",
+                                                                      type = "boolean",
+                                                                      value = "When the service reject the emails, add a new random char",
+                                                                      example = "false") boolean addRandomEmail) {
         return new ResponseEntity<>(iContactMapper.modelToDto(contactServiceImpl.syncContact(listId!=null?listId:defaultList, addRandomEmail)),
                 HttpStatus.OK);
     }
