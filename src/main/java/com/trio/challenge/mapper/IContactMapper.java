@@ -1,6 +1,6 @@
 package com.trio.challenge.mapper;
 
-import com.trio.challenge.integration.client.mailchimp.dto.SyncContactDto;
+import com.trio.challenge.integration.mailchimp.dto.SyncContactDto;
 import com.trio.challenge.model.SyncContactModel;
 import org.mapstruct.Mapper;
 

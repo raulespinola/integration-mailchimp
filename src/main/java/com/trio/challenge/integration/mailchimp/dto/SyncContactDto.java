@@ -1,5 +1,6 @@
-package com.trio.challenge.model;
+package com.trio.challenge.integration.mailchimp.dto;
 
+import com.trio.challenge.model.ContactTrioModel;
 import lombok.*;
 
 import java.util.List;
@@ -9,8 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class SyncContactModel {
-
+public class SyncContactDto {
     private int syncedContacts;
     private List<ContactTrioModel> contacts;
 }
