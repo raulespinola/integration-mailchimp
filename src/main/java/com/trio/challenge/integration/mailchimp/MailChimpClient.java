@@ -38,7 +38,7 @@ public class MailChimpClient implements MailChimpProvider{
         this.serverApi = serverApi;
         this.objectMapper= objectMapper;
 
-        var exchangeStrategies = ExchangeStrategies.builder()
+        ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder()
                 .codecs(configurer -> {
                     configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(objectMapper));
                     configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(objectMapper));
@@ -75,7 +75,7 @@ public class MailChimpClient implements MailChimpProvider{
                     .bodyToMono(MemberMailChimpDto.class)
                     .onErrorResume(e -> {
                         if (e instanceof WebClientResponseException) {
-                            var responseException = (WebClientResponseException) e;
+                            WebClientResponseException responseException = (WebClientResponseException) e;
                             if (responseException.getStatusCode().is4xxClientError()) {
                                 return Mono.error(new ResponseStatusException(responseException.getStatusCode(),
                                         e.getLocalizedMessage().concat(String.format("- Posible the member %s: was already sync", requestMemberMailChimpDto.getEmailAddress()))));
