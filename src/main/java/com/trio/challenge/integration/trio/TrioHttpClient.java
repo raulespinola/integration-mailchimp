@@ -14,6 +14,7 @@ import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,7 +27,7 @@ public class TrioHttpClient implements TrioDataProvider {
 
     public TrioHttpClient(ObjectMapper mapper) {
 
-        var exchangeStrategies = ExchangeStrategies.builder()
+        ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder()
                 .codecs(configurer -> {
                     configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(mapper));
                     configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(mapper));
@@ -48,7 +49,7 @@ public class TrioHttpClient implements TrioDataProvider {
 
     public List<ContactsMockDto> getContactsFromTrio(){
         try {
-            return List.of(Objects.requireNonNull(webClient
+            return Arrays.asList(Objects.requireNonNull(webClient
                     .get()
                     .accept(MediaType.APPLICATION_JSON)
                     .retrieve()
